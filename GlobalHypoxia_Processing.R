@@ -12,7 +12,8 @@
 ## (1) Time: Start Date, End Date, Timestep, Number of data points
 ## (2) For DO_mgL,DO_psat & WaterTempC: Mean, SD, Quantiles (0 (Min), 0.05, 0.1, 0.25, 0.5 (Median),
 ##                 0.75, 0.9, 0.95, 1 (Max)), 
-## (3) Probability of Hypoxia of threshold (mg/L) 2, 3, 4, & 5 (add psat?)
+## (3) Probability of Hypoxia of threshold (mg/L) 2, 3, 4, & 5
+
 
 ## List of parameters this code extracts from Optional Data:
 ## Discharge: Summary stats, mean Q when hypoxic, Q antecedent to hypoxia(?)
@@ -33,12 +34,23 @@ lapply(c("plyr","dplyr","ggplot2","cowplot","streamMetabolizer",
 ## (1) Set working directory to formatted files
 getwd() # use bottom right panel to find folder & set directory
 
-## Import and compile excel files
+## STOP -- and choose whether to import and compile excel or csv files:
+## Note: (tried writing ifelse statement but kept running into trouble)
+# excel
 dat <- ldply(list.files(pattern = "xlsx"), function(filename) {
-  d <- read_excel(filename, sheet=2)
+  d <- read_excel(filename, sheet=1)
   d$file <- filename
   return(d)
 })
+
+# csv
+dat <- ldply(list.files(pattern = "csv"), function(filename) {
+  d <- read.csv(filename)
+  d$file <- filename
+  return(d)
+})
+
+
 ## Check
 head(dat)
 
@@ -56,8 +68,8 @@ format_time <- function(xdat, time_format){
   xdat$DateTime <- as.POSIXct(as.character(xdat$DateTime), format=time_format)
   
   ## Specify the time zone
-  xdat$GMT_tz <- paste("Etc/GMT",as.numeric(as.character(xdat$UTC_TimeZone)), sep="")
-  xdat$DateTime <- force_tz(xdat$DateTime, tzone = xdat$GMT_tz[1]) ## need to work on a loop approach
+  #xdat$GMT_tz <- paste("Etc/GMT",as.numeric(as.character(xdat$UTC_TimeZone)), sep="")
+  #xdat$DateTime <- force_tz(xdat$DateTime, tzone = xdat$GMT_tz[1]) ## need to work on a loop approach
   return(xdat)
   
 }
@@ -74,7 +86,7 @@ qaqc <- function(xdat){
   
   ## QA/QC Temperature Data
   xdat$WaterTempC[xdat$WaterTempC < 0 ] <- 0 ## Less than 0 C, freezing and most likely calibration error
-  xdat$WaterTempC[xdat$WaterTempC > 50 ] <- 0 ## Arbitrarily high value (can be changed)
+  xdat$WaterTempC[xdat$WaterTempC > 50 ] <- NA ## Arbitrarily high value (can be changed)
 
   return(xdat)
 }
@@ -105,14 +117,15 @@ head(dat.list[2])
 #####################
 ## Recombine dat.list
 df <- ldply(dat.list, data.frame)
+sapply(df, class)
 
 ## TIME
-## Want: Start Date, End Date, Timestep, Number of data points
-time_df <- df %>%
+## Want: Start Date, End Date, Timestep, Number of oxygen data points
+time_df <- na.omit(df[,c(".id","DateTime","DO_mgL")]) %>%
   group_by(.id) %>%
   summarise(Start_time = head(DateTime, n=1),
             End_time = tail(DateTime, n=1),
-            tdiff_sec = DateTime[2] - DateTime[1],
+            tdiff_sec = as.numeric(DateTime[2]) - as.numeric(DateTime[1]),
             n_time = length(DateTime))
 
 ## DO_mgL, DO_psat, WaterTempC Summary Stats
@@ -120,27 +133,52 @@ time_df <- df %>%
 
 ss_df <- df %>%
   group_by(.id) %>%
-  summarise_at(.vars= c("DO_mgL","DO_psat","WaterTempC"), .funs = c(mean, sd, min, max))
+  summarise_at(.vars= c("DO_mgL","DO_psat","WaterTempC"),
+               .funs = c("mean"=mean, "sd"=sd, "min"=min, "max"=max), na.rm=T)
+
+## dplyr is weird about quantiles so had to separate
 
 quant_DOmgL_df <- df %>%
   group_by(.id) %>% 
-  do(data.frame(t(quantile(.$DO_mgL, probs = c(0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95)))))
+  do(data.frame(t(quantile(.$DO_mgL,
+                           probs = c(0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95),
+                           na.rm = T))))
+colnames(quant_DOmgL_df)[2:8] <- paste("DOmgL", colnames(quant_DOmgL_df)[2:8], sep = "_")
 
 quant_DOpsat_df <- df %>%
   group_by(.id) %>% 
-  do(data.frame(t(quantile(.$DO_psat, probs = c(0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95)))))
+  do(data.frame(t(quantile(.$DO_psat,
+                           probs = c(0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95),
+                           na.rm = T))))
+colnames(quant_DOpsat_df)[2:8] <- paste("DOpsat", colnames(quant_DOpsat_df)[2:8], sep = "_")
                                                                   
 quant_Temp_df <- df %>%
   group_by(.id) %>% 
-  do(data.frame(t(quantile(.$WaterTempC, probs = c(0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95)))))
+  do(data.frame(t(quantile(.$WaterTempC,
+                           probs = c(0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95),
+                           na.rm = T))))
+colnames(quant_Temp_df)[2:8] <- paste("Temp", colnames(quant_Temp_df)[2:8], sep = "_")
 
-
-## Probability that DO < 2 mg/L
+## Probability that DO < 2, 3, 4, 5
 Hypox_Pr <- function(x){
   pr_sub2 <- nrow(x[which(x$DO_mgL < 2),])/nrow(x)
+  pr_sub3 <- nrow(x[which(x$DO_mgL < 3),])/nrow(x)
+  pr_sub4 <- nrow(x[which(x$DO_mgL < 4),])/nrow(x)
   pr_sub5 <- nrow(x[which(x$DO_mgL < 5),])/nrow(x)
-  return(pr_sub2, pr_sub5)
+  pr_vec <- as.data.frame(t(as.matrix(c(pr_sub2, pr_sub3, pr_sub4, pr_sub5))))
+  colnames(pr_vec) <- c("Hyp_pr_sub2","Hyp_pr_sub3","Hyp_pr_sub4","Hyp_pr_sub5")
+  return(pr_vec)
 }
+
+Hypox_Pr_df <- ldply(lapply(dat.list, function(x) Hypox_Pr(x)), data.frame)
+
+
+## Merge all together
+stats_merged <- list(time_df, ss_df, quant_DOmgL_df, quant_DOpsat_df,
+                     quant_Temp_df, Hypox_Pr_df) %>% 
+  reduce(left_join, by = ".id")
+
+## Export
 
 
 
