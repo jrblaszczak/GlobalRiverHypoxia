@@ -59,6 +59,8 @@ par(mfrow=c(1,1))
 # pool stream orders into "Low", "Mid" and "High"
 sub_GEE$ORD_STRA_pool <- fct_collapse(as.factor(sub_GEE$ORD_STRA), LOW = c("1","2","3"), MID = c("4","5","6"), HIGH = c("7","8","9"))
 
+mean(sub_GEE$NHD_SLOPE)
+
 ######################################
 ## Bootstrapping two separate models
 ######################################

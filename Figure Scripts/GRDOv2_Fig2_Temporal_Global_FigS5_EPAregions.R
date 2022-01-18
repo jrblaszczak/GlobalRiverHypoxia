@@ -253,6 +253,9 @@ senslopes_EPA_slope <- ldply(lapply(senslopes_EPA, function(x) x$estimates), dat
 sensslopes_output <- left_join(senslopes_EPA_p, senslopes_EPA_slope, by="Region")
 write.csv(sensslopes_output, "Sensslope_output.csv")
 
+
+
+
 ########################
 ## EPA region map
 ########################

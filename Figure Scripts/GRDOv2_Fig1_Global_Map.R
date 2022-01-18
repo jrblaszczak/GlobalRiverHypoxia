@@ -116,19 +116,20 @@ nrow(Bdat[is.na(Bdat$Num_sites) == TRUE,])/(nrow(Bdat[is.na(Bdat$Num_sites) == T
 ## SI figure - world map of proportion of hypoxia relative to total measurements
 world_SI <- ggplot(data = Bdat) +
   geom_sf(aes(fill=percent_sub2+0.01)) +
-  coord_sf(xlim = c(-180,180), ylim = c(-60,85), expand = FALSE)+
+  coord_sf(ylim = c(-60,85), expand = FALSE)+
   xlab("Longitude") + ylab("Latitude")+
-  scale_fill_gradientn("% of Locations within\n Basin with Detected Hypoxia\n (<2 mg/L DO)",
+  scale_fill_gradientn("% of Locations within Basin with\n Detected Hypoxia (<2 mg/L DO)",
                        colours=pal, na.value = "gray30",
-                       breaks=c(0+0.01, 1+0.01, 10+0.01, 100+0.01),
-                       labels=c("0%", "1%", "10%","100%"),
-                       trans="log", limits = c(0+0.01,100+0.01))+
+                       breaks=c(0+0.01, 50+0.01, 100+0.01),
+                       labels=c("0%", "50%","100%"),
+                       limits = c(0+0.01,100+0.01))+ #trans="log", 
   theme(panel.background = element_rect(fill = "white", color="black"),
         panel.grid.major = element_line(color = "gray85", linetype = "dashed", size = 0.5),
         legend.position = "top",
-        axis.text = element_text(size=15), axis.title = element_text(size=17))
-world_SI+theme(legend.position = "none")
-plot_grid(get_legend(world_SI))
+        axis.text = element_blank(),axis.ticks = element_blank(),
+        axis.title = element_text(size=17))
+world_SI#+theme(legend.position = "none")
+#plot_grid(get_legend(world_SI))
 
 
 
