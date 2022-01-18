@@ -1,3 +1,9 @@
+#####################################################################################
+## Blaszczak et al. - Global extent, patterns, and drivers of hypoxia in rivers
+## Figure 4A - Boosted regression tree figure following tuning of tree
+## Code author: J.R. Blaszczak
+######################################################################################
+
 ## Boosted regression tree
 ## Tutorial: https://rspatial.org/raster/sdm/9_sdm_brt.html
 ## More information:
@@ -85,6 +91,7 @@ head(data_train); head(data_test)
 ##############################################
 ## Figure: plot relative variable importance
 ###############################################
+## Import data from tuned boosted regression tree model
 hyp.mod <- readRDS("hyp.lr1.br7_maxwaterT_2021_10_14.rds")
 
 var.info <- read.csv("BRT_pred_var_info.csv", header=T)

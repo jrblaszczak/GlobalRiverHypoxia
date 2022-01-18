@@ -16,5 +16,110 @@ We thank the countless people who took a measurement or deployed a sensor that g
 Information on the Timeframe, Geographic Location, & Data Provenance are all available in the ScienceBase data release.
 
 
+## Scripts/code (software)
+
+# 
+Folder: Data Prep and Analysis Scripts
+File name: Data_BoostedRegressionTree.R
+File description: 
+Scripting language: R
+
+# 
+Folder: Data Prep and Analysis Scripts
+File name: Data_Hypoxic_Event_Duration.R
+File description:
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_Fig1_Global_Map.R
+File description: Global map of hypoxia in river basins & data distribution
+Figures: Figure 1, Figure S2
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_Fig2_Temporal_Global_FigSI_EPAregions.R
+File description: Global and US EPA region trends
+Figures: Figure 2, Figure S6
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_Fig3_Regimes.R
+File description: Compile hypoxic events and figure with maps and distributions
+Figures: Figure 3
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_Fig4A_Controls_BRT.R
+File description: Boosted regression tree figure following tuning of tree
+Figures: Figure 4A
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_Fig4BC_Controls_GLM.R
+File description: Logistic regression of controls on river hypoxia
+Figures, Figure 4B,C
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_FigSI_data_age.R
+File description: Date Range of data figure
+Figures: Figure S3
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_FigSI_sensortrends.R
+File description: Sensor data trends through time hypoxia
+Figures: Figure S7
+Scripting language: R
+
+# 
+Folder: Figure Scripts
+File name: GRDOv2_glm_Population_Aridity.R
+File description: 
+Scripting language: R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

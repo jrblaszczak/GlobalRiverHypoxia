@@ -1,6 +1,6 @@
 #############################################
 ## Blaszczak et al. - Global extent, patterns, and drivers of hypoxia in rivers
-## Figure 3 - Logistic regression of controls on river hypoxia
+## Figure 4B,C - Logistic regression of controls on river hypoxia
 ## Code author: J.R. Blaszczak
 #############################################
 ## Load packages

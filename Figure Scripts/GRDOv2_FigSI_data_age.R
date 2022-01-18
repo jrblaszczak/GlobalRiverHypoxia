@@ -1,6 +1,6 @@
 #####################################################################################
 ## Blaszczak et al. - Global extent, patterns, and drivers of hypoxia in rivers
-## Figure SI - age of data
+## Figure SI - Date Range of data figure
 ## Code author: J.R. Blaszczak
 ######################################################################################
 

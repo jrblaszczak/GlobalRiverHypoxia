@@ -1,6 +1,8 @@
-##################################################
-## Compile events and create figure with distribution
-#################################################
+#####################################################################################
+## Blaszczak et al. - Global extent, patterns, and drivers of hypoxia in rivers
+## Figure 3 - Compile hypoxic events and figure with maps and distributions
+## Code author: J.R. Blaszczak
+######################################################################################
 
 ## Load packages
 lapply(c("plyr","dplyr","ggplot2","cowplot","lubridate",
