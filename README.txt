@@ -20,14 +20,20 @@ Information on the Timeframe, Geographic Location, & Data Provenance are all ava
 
 # 
 Folder: Data Prep and Analysis Scripts
-File name: Data_BoostedRegressionTree.R
-File description: 
+File name: GRDOv2_BoostedRegressionTree.R
+File description: Boosted regression tree tuning
 Scripting language: R
 
 # 
 Folder: Data Prep and Analysis Scripts
-File name: Data_Hypoxic_Event_Duration.R
-File description:
+File name: GRDOv2_Hypoxic_Event_Duration.R
+File description: Hypoxic event duration calculation
+Scripting language: R
+
+# 
+Folder: Data Prep and Analysis Scripts
+File name: GRDOv2_glm_Population_Aridity.R
+File description: Watershed population density and aridity index GLMs
 Scripting language: R
 
 # 
@@ -78,48 +84,3 @@ File name: GRDOv2_FigSI_sensortrends.R
 File description: Sensor data trends through time hypoxia
 Figures: Figure S7
 Scripting language: R
-
-# 
-Folder: Figure Scripts
-File name: GRDOv2_glm_Population_Aridity.R
-File description: 
-Scripting language: R
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

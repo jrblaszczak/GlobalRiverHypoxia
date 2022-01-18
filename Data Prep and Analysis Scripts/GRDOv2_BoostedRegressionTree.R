@@ -1,3 +1,9 @@
+#####################################################################################
+## Blaszczak et al. - Global extent, patterns, and drivers of hypoxia in rivers
+## Boosted regression tree tuning
+## Code author: J.R. Blaszczak
+######################################################################################
+
 ## Boosted regression tree
 ## Tutorial: https://rspatial.org/raster/sdm/9_sdm_brt.html
 ## More information:
@@ -213,9 +219,6 @@ hyp.simp <- gbm.simplify(hyp_lrs$hyp.lr1.br7) ## does not recommend dropping
 hyp.simp_rerun <- gbm.step(data_train,gbm.x=hyp.simp$pred.list[[1]],
                            gbm.y=3, family = "bernoulli",tree.complexity=3,
                            learning.rate=0.1, bag.fraction = 0.7)
-
-
-
 
 ##############################################
 ## Figure: plot relative variable importance

@@ -12,7 +12,7 @@ theme_set(theme_bw())
 ## Import Hypoxia Data
 ##########################
 ## Set wd again
-setwd("../Distribution, frequency, and global extent of hypoxia in rivers/Data")
+#setwd("../Distribution, frequency, and global extent of hypoxia in rivers/Data")
 ## Import sites
 dat <- fread("GRDO_GEE_HA_NHD.csv")
 

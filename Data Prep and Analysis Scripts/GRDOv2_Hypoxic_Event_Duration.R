@@ -1,4 +1,8 @@
-## Distribution of hypoxic event times
+#####################################################################################
+## Blaszczak et al. - Global extent, patterns, and drivers of hypoxia in rivers
+## Hypoxic event duration calculation
+## Code author: J.R. Blaszczak
+######################################################################################
 
 ## Load packages
 lapply(c("plyr","dplyr","ggplot2","cowplot","lubridate",
@@ -8,12 +12,9 @@ lapply(c("plyr","dplyr","ggplot2","cowplot","lubridate",
 ## Calculate hypoxia event duration - only do once
 ######################################################
 
-## (1) Set working directory to formatted files
-getwd() # use bottom right panel to find folder & set directory
-setwd("C:/Users/jblaszczak/Dropbox/FLBS/Research/Hypoxia/Organized GRDO Database for Publication/GRDO 2. Template ts with sumstat scripts/Compiled formatted TS/PC formatted TS Raw")
-#setwd("C:/Users/Joanna/Dropbox (Duke Bio_Ea)/FLBS/Research/Hypoxia/Organized GRDO Database for Publication/GRDO 2. Template ts with sumstat scripts/Compiled formatted TS/PC formatted TS Raw")
-
-#list.files(pattern = "csv")
+## (1) Set working directory to formatted files from Appling et al. 2018
+# See ScienceBase data release for data formatting script
+# See https://www.sciencebase.gov/catalog/item/59bff507e4b091459a5e0982 for data
 
 Hypoxia_Duration <- function(workdir, num){
   
